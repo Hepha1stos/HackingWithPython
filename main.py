@@ -12,7 +12,7 @@ def main():
 
 
   name = request.args.get("name","Test")
-  return render_template("main.html", vars = vars, name=name)
+  return render_template("base.html", vars = vars, name=name)
 
 @app.route("/")
 def homepage():
@@ -26,5 +26,31 @@ def tickets_page():
             ]
     return render_template("tickets.html",items=items)
 
+@app.route("/login",methods=["GET","POST"])
+def user_login():
+  if request.method == "POST":
+    print("Post")
+    
+    username = request.form.get("username")
+    password = request.form.get("password")
+    print(username,password)
+    return render_template("login.html")
+  return render_template("login.html")
+
+
+@app.route("/register",methods=["GET","POST"])
+def user_register():
+  if request.method == "POST":
+    print("Post")
+    
+    username = request.form.get("username")
+    email = request.form.get("email")
+    password1 = request.form.get("password1")
+    password2 = request.form.get("password2")
+    
+    print(username,email,password1,password2)
+    
+    return render_template("register.html")
+  return render_template("register.html")
 if __name__ == "__main__":
   app.run(debug=True)

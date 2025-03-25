@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block title %}
+Register
+{% endblock %}
+
+{% block content %}
+<form method="POST" action="/register">
+<div class="mb-3">
+    <label for="exampleFormControlInput1" class="form-label" name="username">Username</label>
+    <input type="text" class="form-control" id="username" name="username" placeholder="username">
+  </div>
+  <div class="mb-3">
+    <label for="exampleFormControlInput1" class="form-label" name="email">Email</label>
+    <input type="email" class="form-control" id="email" name="email" placeholder="password">
+  </div>
+  <div class="mb-3">
+    <label for="exampleFormControlInput1" class="form-label" name="password1">Password</label>
+    <input type="password" class="form-control" id="password1" name="password1" placeholder="Password">
+  </div>
+  <div class="mb-3">
+    <label for="exampleFormControlInput1" class="form-label" name="password2">Password wiederholen</label>
+    <input type="password" class="form-control" id="password2" name="password2" placeholder="password wiederholen">
+  </div>
+  <button type="submit" class="btn-primary btn">Register</button>
+</form>
+{% endblock %}
