@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block title %}
+Overview
+{% endblock %}
+
+{% block content %}
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Uhrzeit</th>
+      <th scope="col">Datum</th>
+      <th scope="col">Kategory</th>
+      <th scope="col">Nutzer</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for log in logs %}
+  <tr>
+    <th scope="row">{{log.id}}</th>
+    <td>{{log.time}}</td>
+    <td>{{log.date}}</td>
+    <td>{{log.category}}</td>
+    <td>{{log.user}}</td>
+
+  </tr>
+  {% endfor %}
+</tbody>
+</table>
+{% endblock %}

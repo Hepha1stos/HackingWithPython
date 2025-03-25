@@ -1,5 +1,5 @@
 from flask import render_template, request, Blueprint
-from src.db import mysql
+
 
 auth_routes = Blueprint("auth_routes", __name__)
 
@@ -10,13 +10,7 @@ def user_login():
     
     username = request.form.get("username")
     password = request.form.get("password")
-    conn = mysql.connect()
-    cursor = conn.cursor()
-    cursor.execute("SHOW TABLES;")
-    data = cursor.fetchall()
-    print(data)
-    cursor.close()
-    conn.close()
+    
     print(username,password)
     return render_template("login.html")
   return render_template("login.html")
