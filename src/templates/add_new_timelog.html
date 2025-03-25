@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Add new Timelog
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5" style="max-width: 600px;">
+  <h2 class="mb-4 text-center">Neuen Zeiteintrag hinzufügen</h2>
+
+  <form method="post" action="/add" class="needs-validation" novalidate>
+    <div class="mb-3">
+      <label for="date" class="form-label">Datum</label>
+      <input type="date" name="date" id="date" class="form-control" required>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col">
+        <label for="timeFrom" class="form-label">Von</label>
+        <input type="time" name="timeFrom" id="timeFrom" class="form-control" required>
+      </div>
+      <div class="col">
+        <label for="timeTo" class="form-label">Bis</label>
+        <input type="time" name="timeTo" id="timeTo" class="form-control" required>
+      </div>
+    </div>
+
+    <div class="mb-4">
+      <label for="catSelect" class="form-label">Kategorie</label>
+      <select class="form-select" id="catSelect" name="catSelect" required>
+        <option value="" disabled selected>Bitte Kategorie wählen</option>
+        {% for cat in categories %}
+        <option value="{{ cat[0] }}">{{ cat[1] }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="d-grid">
+      <button type="submit" class="btn btn-primary">Speichern</button>
+    </div>
+  </form>
+</div>
+{% endblock %}

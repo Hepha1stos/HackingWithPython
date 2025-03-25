@@ -4,27 +4,42 @@ Overview
 {% endblock %}
 
 {% block content %}
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th scope="col">ID</th>
-      <th scope="col">Uhrzeit</th>
-      <th scope="col">Datum</th>
-      <th scope="col">Kategory</th>
-      <th scope="col">Nutzer</th>
-    </tr>
-  </thead>
-  <tbody>
-  {% for log in logs %}
-  <tr>
-    <th scope="row">{{log.id}}</th>
-    <td>{{log.time}}</td>
-    <td>{{log.date}}</td>
-    <td>{{log.category}}</td>
-    <td>{{log.user}}</td>
+<div class="container mt-5">
+  <h2 class="mb-4 text-center">Zeiterfassung Übersicht</h2>
 
-  </tr>
-  {% endfor %}
-</tbody>
-</table>
+  <div class="table-responsive">
+    <!-- Table header -->
+    <table class="table table-bordered table-striped text-center align-middle mb-0">
+      <thead class="table-dark">
+        <tr>
+          <th scope=""></th>
+          <th scope="col">ID</th>
+          <th scope="col">Von</th>
+          <th scope="col">Bis</th>
+          <th scope="col">Datum</th>
+          <th scope="col">Kategorie</th>
+          <th scope="col">Benutzer</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for log in logs %}
+        <tr>
+          <td>
+            <form method="post" action="/overview">
+              <input type="hidden" name="delete_id" value="{{ log.id }}">
+              <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+            </form>
+          </td>
+          <td>{{ log.id }}</td>
+          <td>{{ log.timeFrom }}</td>
+          <td>{{ log.timeTo }}</td>
+          <td>{{ log.date }}</td>
+          <td>{{ log.category }}</td>
+          <td>{{ log.user }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
 {% endblock %}
