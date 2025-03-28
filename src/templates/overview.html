@@ -4,42 +4,90 @@ Overview
 {% endblock %}
 
 {% block content %}
-<div class="container mt-5">
-  <h2 class="mb-4 text-center">Zeiterfassung Übersicht</h2>
+<style>
+  .modern-table {
+    border-collapse: collapse;
+    width: 100%;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  }
+  .modern-table th, .modern-table td {
+    padding: 12px 15px;
+    text-align: center;
+  }
+  .modern-table thead tr {
+    background-color: #009879;
+    color: #ffffff;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .modern-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+  }
+  .modern-table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+  }
+  .modern-table tbody tr:last-of-type {
+    border-bottom: 2px solid #009879;
+  }
+  .modern-table tbody tr:hover {
+    background-color: #f1f1f1;
+    transition: background-color 0.3s ease;
+  }
+  .action-btn {
+    background: transparent;
+    border: none;
+    color: #dc3545;
+    cursor: pointer;
+    font-size: 0.9rem;
+  }
+</style>
 
-  <div class="table-responsive">
-    <!-- Table header -->
-    <table class="table table-bordered table-striped text-center align-middle mb-0">
-      <thead class="table-dark">
-        <tr>
-          <th scope=""></th>
-          <th scope="col">ID</th>
-          <th scope="col">Von</th>
-          <th scope="col">Bis</th>
-          <th scope="col">Datum</th>
-          <th scope="col">Kategorie</th>
-          <th scope="col">Benutzer</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for log in logs %}
-        <tr>
-          <td>
-            <form method="post" action="/overview">
-              <input type="hidden" name="delete_id" value="{{ log.id }}">
-              <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-            </form>
-          </td>
-          <td>{{ log.id }}</td>
-          <td>{{ log.timeFrom }}</td>
-          <td>{{ log.timeTo }}</td>
-          <td>{{ log.date }}</td>
-          <td>{{ log.category }}</td>
-          <td>{{ log.user }}</td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+<div class="container mt-5">
+  <div class="card border-0 shadow-sm">
+    <div class="card-header bg-white border-0">
+      <h4 class="mb-0 text-center">Zeiterfassung Übersicht</h4>
+    </div>
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="modern-table">
+          <thead>
+            <tr>
+              <th>Aktion</th>
+              <th>ID</th>
+              <th>Von</th>
+              <th>Bis</th>
+              <th>Datum</th>
+              <th>Kategorie</th>
+              <th>Benutzer</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% if logs %}
+              {% for log in logs %}
+              <tr>
+                <td>
+                  <form method="post" action="/overview" class="mb-0">
+                    <input type="hidden" name="delete_id" value="{{ log.id }}">
+                    <button type="submit" class="action-btn">Delete</button>
+                  </form>
+                </td>
+                <td>{{ log.id }}</td>
+                <td>{{ log.timeFrom }}</td>
+                <td>{{ log.timeTo }}</td>
+                <td>{{ log.date }}</td>
+                <td>{{ log.category }}</td>
+                <td>{{ log.user }}</td>
+              </tr>
+              {% endfor %}
+            {% else %}
+              <tr>
+                <td colspan="7" class="text-center">Keine Einträge vorhanden.</td>
+              </tr>
+            {% endif %}
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>
 </div>
 {% endblock %}

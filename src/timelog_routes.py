@@ -1,4 +1,4 @@
-from flask import render_template, request, Blueprint
+from flask import render_template, request, Blueprint, redirect
 
 from src.db import mysql
 
@@ -48,4 +48,5 @@ def add_new_timelog():
       print(catId,date,timeFrom, timeTo)
       cursor.execute(f"INSERT INTO timelog (timestampFrom, timestampTo, date,category_id, user_id) VALUES ('{timeFrom}','{timeTo}','{date}','{catId}','1')")
       conn.commit()
+      return redirect("/overview")
     return render_template("add_new_timelog.html",categories=categories)

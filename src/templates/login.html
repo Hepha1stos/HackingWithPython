@@ -4,15 +4,70 @@ Login
 {% endblock %}
 
 {% block content %}
+<style>
+  .modern-card {
+    border: none;
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  }
+  .modern-card-header {
+    background-color: #009879;
+    color: #ffffff;
+    border-top-left-radius: 0.5rem;
+    border-top-right-radius: 0.5rem;
+    padding: 1rem;
+    text-align: center;
+  }
+  .modern-card-body {
+    padding: 2rem;
+  }
+  .modern-form-control {
+    border: 1px solid #dee2e6;
+    border-radius: 0.25rem;
+    padding: 0.5rem 0.75rem;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+  }
+  .modern-form-control:focus {
+    border-color: #009879;
+    box-shadow: none;
+  }
+  .modern-btn {
+    background-color: #009879;
+    border: none;
+    border-radius: 0.25rem;
+    padding: 0.5rem 1rem;
+    color: #ffffff;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+  }
+  .modern-btn:hover {
+    background-color: #007f67;
+  }
+</style>
 
-<form method="POST" class="form-register" action="/login" >
-<div class="mb-3">
-    <label for="username" class="form-label">Username</label>
-    <input type="text" class="form-control" id="username" name="username" placeholder="username">
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card modern-card">
+        <div class="card-header modern-card-header">
+          <h4 class="mb-0">Login</h4>
+        </div>
+        <div class="card-body modern-card-body">
+          <form method="POST" action="/login">
+            <div class="mb-3">
+              <label for="username" class="form-label">Username</label>
+              <input type="text" class="form-control modern-form-control" id="username" name="username" placeholder="Username" required>
+            </div>
+            <div class="mb-3">
+              <label for="password" class="form-label">Password</label>
+              <input type="password" class="form-control modern-form-control" id="password" name="password" placeholder="Password" required>
+            </div>
+            <button type="submit" class="btn modern-btn w-100">Login</button>
+          </form>
+        </div>
+      </div>
+    </div>
   </div>
-  <div class="mb-3">
-    <label for="password" class="form-label">Password</label>
-    <input type="password" class="form-control" id="password" name="password" placeholder="password">
-  <button type="submit" class="btn-primary btn">Login</button>
-</form>
+</div>
 {% endblock %}
