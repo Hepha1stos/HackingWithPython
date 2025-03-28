@@ -42,6 +42,7 @@ Overview
   }
 </style>
 
+<<<<<<< HEAD
 <div class="container mt-5">
   <div class="card border-0 shadow-sm">
     <div class="card-header bg-white border-0">
@@ -88,6 +89,39 @@ Overview
         </table>
       </div>
     </div>
+=======
+  <div class="table-responsive">
+    <!-- Table header -->
+    <table class="table table-bordered table-striped text-center align-middle mb-0">
+      <thead class="table-dark">
+        <tr>
+          <th scope=""></th>
+          <th scope="col">Von</th>
+          <th scope="col">Bis</th>
+          <th scope="col">Datum</th>
+          <th scope="col">Kategorie</th>
+          <th scope="col">Benutzer</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for log in logs %}
+        <tr>
+          <td>
+            <form method="post" action="/overview">
+              <input type="hidden" name="delete_id" value="{{ log.id }}">
+              <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+            </form>
+          </td>
+          <td>{{ log.timeFrom }}</td>
+          <td>{{ log.timeTo }}</td>
+          <td>{{ log.date }}</td>
+          <td>{{ log.category }}</td>
+          <td>{{ log.user }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+>>>>>>> 6d85416febd479bbcbc732f0bc1ce8eb6d255c18
   </div>
 </div>
 {% endblock %}
