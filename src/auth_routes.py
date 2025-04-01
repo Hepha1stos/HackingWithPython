@@ -1,4 +1,4 @@
-from flask import render_template, request, Blueprint,flash
+from flask import render_template, request, Blueprint,flash,redirect
 
 from src.db import mysql
 
@@ -14,9 +14,23 @@ def user_login():
     username = request.form.get("username")
     password = request.form.get("password")
   
+    query = f"SELECT username FROM users where username='{username}' AND password ='{password}'"
 
-    print(username,password)
-    return render_template("login.html")
+    conn = mysql.connect()
+    cursor = conn.cursor()
+
+    cursor.execute(query)
+
+    user = cursor.fetchone()
+    
+
+    if user:
+      print("Erfolg")
+      resp = redirect("/overview")
+      resp.set_cookie(key="name",value=user[0])
+      return resp
+    else:
+        return redirect("/")
   return render_template("login.html")
 
 
@@ -41,7 +55,6 @@ def user_register():
     
     cursor.execute(f"INSERT INTO users (username, email, password) VALUES ('{username}','{email}','{password2}')")
     conn.commit()
-
 
     return render_template("register.html")
   return render_template("register.html")
