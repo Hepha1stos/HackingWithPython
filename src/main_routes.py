@@ -5,7 +5,9 @@ main_routes = Blueprint("main_routes",__name__)
 
 @main_routes.route("/")
 def homepage():
-    return render_template('home.html')
+    cookie = request.cookies.get('name')
+    print(cookie)
+    return render_template('home.html', cookie=cookie)
 
 
 

@@ -21,17 +21,23 @@
               <li class="nav-item">
                 <a class="nav-link active" aria-current="page" href="{{url_for('main_routes.homepage')}}">Home</a>
               </li>
+              {%if cookie %}
               <li class="nav-item">
                 <a class="nav-link" href="/add">Add new Log</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="/overview">Overview</a>
               </li>
+              <li>
+                <a class="nav-link" href="/logout">Logout</a>
+              </li>
+              {% else%}
               <li class="nav-item">
                 <a class="nav-link" href="/login">Login</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="/register">Register</a>
+              {% endif %}
             </ul>
           </div>
         </div>

@@ -1,12 +1,15 @@
 from flask import render_template, request, Blueprint, redirect
 
 from src.db import mysql
-
+from funcs.cookies import checkCookie
 timelog_routes = Blueprint("timelog_routes", __name__)
 
 
 @timelog_routes.route("/overview", methods=["GET", "POST"])
 def show():
+    
+    cookie = checkCookie("/login")
+
     conn = mysql.connect()
     cursor = conn.cursor()
 
@@ -30,10 +33,12 @@ def show():
         for row in logs
     ]
 
-    return render_template("overview.html", logs=parsedLogs)
+    return render_template("overview.html", logs=parsedLogs, cookie=cookie)
 
 @timelog_routes.route("/add",methods=["GET","POST"])
 def add_new_timelog():
+    
+    cookie = checkCookie("/login")
     
     conn = mysql.connect()
     cursor = conn.cursor()
@@ -49,4 +54,4 @@ def add_new_timelog():
       cursor.execute(f"INSERT INTO timelog (timestampFrom, timestampTo, date,category_id, user_id) VALUES ('{timeFrom}','{timeTo}','{date}','{catId}','1')")
       conn.commit()
       return redirect("/overview")
-    return render_template("add_new_timelog.html",categories=categories)
+    return render_template("add_new_timelog.html",categories=categories, cookie=cookie)
