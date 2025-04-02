@@ -7,8 +7,9 @@ timelog_routes = Blueprint("timelog_routes", __name__)
 
 @timelog_routes.route("/overview", methods=["GET", "POST"])
 def show():
-    
-    cookie = checkCookie("/login")
+    cookie = checkCookie()
+    if not cookie:
+        return redirect("login")
 
     conn = mysql.connect()
     cursor = conn.cursor()
@@ -37,9 +38,9 @@ def show():
 
 @timelog_routes.route("/add",methods=["GET","POST"])
 def add_new_timelog():
-    
-       
-    cookie = checkCookie("/login")
+    cookie = checkCookie()
+    if not cookie:
+        return redirect("login")
     
     conn = mysql.connect()
     cursor = conn.cursor()
@@ -64,7 +65,9 @@ def add_new_timelog():
 @timelog_routes.route("/edit/<id>", methods=["GET","POST"])
 def edit_timelog(id):
     
-    cookie = checkCookie("/login")
+    cookie = checkCookie()
+    if not cookie:
+        return redirect("login")
     
     conn = mysql.connect()
     cursor = conn.cursor()
@@ -100,3 +103,22 @@ def edit_timelog(id):
     return render_template("edit.html",log=log_dict,categories=categories, cookie=cookie)
 
 
+@timelog_routes.route("/delete/<id>")
+def delete_timelog(id):
+     
+    cookie = checkCookie()
+    if not cookie:
+        return redirect("login")
+    
+    conn = mysql.connect()
+    cursor = conn.cursor()
+    
+    print(f"--> DELETE timelog with ID {id}")
+
+    cursor.execute(f"DELETE from timelog where id = '{id}'")
+    conn.commit()
+
+    cursor.close()
+    conn.close()
+
+    return redirect("/overview")

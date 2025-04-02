@@ -1,8 +1,8 @@
 from flask import request, redirect
 
 
-def checkCookie(redirectPath:str) -> str:
+def checkCookie() -> str:
   cookie:str = request.cookies.get("name")
   if not cookie:
-    return redirect(redirectPath)
+    return False
   return cookie
