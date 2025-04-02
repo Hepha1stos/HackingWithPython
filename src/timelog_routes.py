@@ -38,6 +38,7 @@ def show():
 @timelog_routes.route("/add",methods=["GET","POST"])
 def add_new_timelog():
     
+       
     cookie = checkCookie("/login")
     
     conn = mysql.connect()
@@ -46,12 +47,56 @@ def add_new_timelog():
     categories =  cursor.fetchall()
 
     if request.method == "POST":
+   
       catId = request.form.get("catSelect")
       date = request.form.get("date")
       timeFrom = request.form.get("timeFrom")
       timeTo = request.form.get("timeTo")
-      print(catId,date,timeFrom, timeTo)
+
+      print(f"--> INSERT timelog: category_id:{catId}, date:{date}, timeFrom:{timeFrom}, timeTo:{timeTo}")
+
       cursor.execute(f"INSERT INTO timelog (timestampFrom, timestampTo, date,category_id, user_id) VALUES ('{timeFrom}','{timeTo}','{date}','{catId}','1')")
       conn.commit()
       return redirect("/overview")
     return render_template("add_new_timelog.html",categories=categories, cookie=cookie)
+
+
+@timelog_routes.route("/edit/<id>", methods=["GET","POST"])
+def edit_timelog(id):
+    
+    cookie = checkCookie("/login")
+    
+    conn = mysql.connect()
+    cursor = conn.cursor()
+
+    cursor.execute(f"SELECT timeStampFrom,timeStampTo,date,category_id,u.username from timelog JOIN users u ON timelog.user_id = u.id where timelog.id = '{id}'")
+    log = cursor.fetchone()
+    colums = [desc[0] for desc in cursor.description]
+    log_dict = dict(zip(colums, log))
+
+    cursor.execute("SELECT * from category")
+    categories = cursor.fetchall()
+ 
+    if request.method == "POST":
+
+        catId = request.form.get("catSelect")
+        date = request.form.get("date")
+        timeFrom = request.form.get("timeStampFrom")
+        timeTo = request.form.get("timeStampTo")
+        
+        conn = mysql.connect()
+        cursor = conn.cursor()
+
+        print(f"--> Update timelog with ID {id}: category_id:{catId}, date:{date}, timeFrom:{timeFrom}, timeTo:{timeTo}")
+
+        cursor.execute(f"UPDATE timelog SET category_id='{catId}', date='{date}', timeStampFrom='{timeFrom}', timeStampTo='{timeTo}' WHERE id='{id}'")
+        conn.commit()
+        cursor.close()
+        conn.close()
+
+        return redirect("/overview")
+  
+
+    return render_template("edit.html",log=log_dict,categories=categories, cookie=cookie)
+
+

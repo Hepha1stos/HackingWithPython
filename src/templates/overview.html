@@ -58,7 +58,7 @@ Overview
               <th>Bis</th>
               <th>Datum</th>
               <th>Kategorie</th>
-              <th>Benutzer</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -76,7 +76,7 @@ Overview
                 <td>{{ log.timeTo }}</td>
                 <td>{{ log.date }}</td>
                 <td>{{ log.category }}</td>
-                <td>{{ log.user }}</td>
+                <td><a href="/edit/{{ log.id }}" class="btn btn-primary hover:bg-blue-200">Bearbeiten</a></td>
               </tr>
               {% endfor %}
             {% else %}

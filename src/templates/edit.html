@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% block title %}
+Eintrag bearbeiten
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card modern-card">
+        <div class="card-header modern-card-header">
+          <h4 class="mb-0 text-center">Eintrag von {{ log.username }}</h4>
+        </div>
+        <div class="card-body modern-card-body">
+          <form method="post" action="">
+            <div class="mb-3">
+              <label for="date" class="form-label">Datum</label>
+              <input
+                type="date"
+                class="form-control modern-form-control"
+                id="date"
+                name="date"
+                value="{{ log.date }}"
+              />
+            </div>
+
+            <div class="mb-3">
+              <label for="timeStampFrom" class="form-label">Von</label>
+              <input
+                type="time"
+                class="form-control modern-form-control"
+                id="timeStampFrom"
+                name="timeStampFrom"
+                value="{{ log.timeStampFrom }}"
+              />
+            </div>
+
+            <div class="mb-3">
+              <label for="timeStampTo" class="form-label">Bis</label>
+              <input
+                type="time"
+                class="form-control modern-form-control"
+                id="timeStampTo"
+                name="timeStampTo"
+                value="{{ log.timeStampTo }}"
+              />
+            </div>
+            <div class="mb-3">
+            <label for="catSelect" class="form-label">Kategorie</label>
+            <select class="form-select modern-form-control" id="catSelect" name="catSelect" required>
+              {% for cat in categories %}
+                <option value="{{ cat[0] }}"
+                  {% if cat[0] == log.category_id %}
+                    selected
+                  {% endif %}
+                >
+                  {{ cat[1] }}
+                </option>
+              {% endfor %}
+            </select>
+          </div>
+
+            <button type="submit" class="btn modern-btn w-100 mb-3">
+              Speichern
+            </button>
+            <a  href="/overview" class="btn modern-btn-cancel w-100">Abbrechen</a>
+              
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
