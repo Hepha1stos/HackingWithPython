@@ -1,8 +1,84 @@
 {% extends 'base.html' %}
 {% block title %}
-This is my home
+Timetracker – Erfasse deine Arbeitszeiten
 {% endblock %}
 
 {% block content %}
-content
+<!-- Hero-Bereich -->
+<div class="p-5 mb-4 bg-light rounded-3">
+  <div class="container py-5">
+    <h1 class="display-5 fw-bold">Willkommen bei deinem Timetracker!</h1>
+    <p class="col-md-8 fs-4">
+      Erfasse deine Arbeitszeiten schnell und unkompliziert. Behalte ganz einfach den Überblick über deine Projekte und Aufgaben.
+    </p>
+
+    {% if cookie %}
+      <!-- Button für eingeloggte Benutzer -->
+      <button class="modern-btn btn-lg" type="button" onclick="location.href='{{ url_for('timelog_routes.add_new_timelog') }}'">
+        Jetzt Arbeitszeit erfassen
+      </button>
+    {% else %}
+      <!-- Button für nicht eingeloggte Benutzer -->
+      <button class="modern-btn btn-lg me-2" type="button"  onclick="location.href='{{ url_for('auth_routes.user_login') }}'">
+        Anmelden
+      </button>
+      <button class="btn btn-secondary" type="button" onclick="location.href='{{ url_for('auth_routes.user_register') }}'">
+        Registrieren
+      </button>
+    {% endif %}
+  </div>
+</div>
+
+<!-- Vorteile/Features-Bereich -->
+<div class="container my-5">
+  <div class="row g-4">
+    <div class="col-md-4">
+      <div class="card h-100 shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">Übersichtliche Zeiterfassung</h5>
+          <p class="card-text">
+            Einfache Eingabe von Start- und Endzeiten. Sofortiges Feedback und Übersicht über dein tägliches Pensum.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card h-100 shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">Detaillierte Auswertungen</h5>
+          <p class="card-text">
+            Analysiere deine Arbeitszeiten nach Projekten oder Aufgaben und sieh, wo du deine Zeit investierst.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card h-100 shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">Intuitive Bedienung</h5>
+          <p class="card-text">
+            Dank des klaren und modernen Designs hast du deinen Zeitplan stets im Griff – ohne komplizierte Menüs.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Kurze Anleitung oder Info-Bereich -->
+<div class="container mb-5">
+  <div class="row align-items-center">
+    <div class="col-md-6">
+      <h2>So funktioniert’s</h2>
+      <ol>
+        <li>Registrieren oder Anmelden</li>
+        <li>Start- und Endzeit erfassen</li>
+        <li>Fertig! Deinen Fortschritt kannst du jederzeit im Überblick ansehen</li>
+      </ol>
+    </div>
+    <div class="col-md-6">
+      <img src="https://via.placeholder.com/600x300" class="img-fluid rounded" alt="Timetracker-Beispielansicht">
+    </div>
+  </div>
+</div>
 {% endblock %}
