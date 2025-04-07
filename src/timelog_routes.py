@@ -26,8 +26,8 @@ def show():
         {
             "id": row[0],
             "timeFrom": str(row[1]),
-            "date": row[2].strftime("%d.%m.%Y"),
-            "timeTo": row[5],
+            "date": row[3].strftime("%d.%m.%Y"),
+            "timeTo": row[2],
             "category": row[6],
             "user": row[7]
         }
@@ -48,15 +48,16 @@ def add_new_timelog():
     categories =  cursor.fetchall()
 
     if request.method == "POST":
-   
+        
+      username = request.cookies.get("name")
       catId = request.form.get("catSelect")
       date = request.form.get("date")
       timeFrom = request.form.get("timeFrom")
       timeTo = request.form.get("timeTo")
 
-      print(f"--> INSERT timelog: category_id:{catId}, date:{date}, timeFrom:{timeFrom}, timeTo:{timeTo}")
-
-      cursor.execute(f"INSERT INTO timelog (timestampFrom, timestampTo, date,category_id, user_id) VALUES ('{timeFrom}','{timeTo}','{date}','{catId}','1')")
+      print(f"--> INSERT timelog: category_id:{catId}, date:{date}, timeFrom:{timeFrom}, timeTo:{timeTo} for user {username}")
+    
+      cursor.execute(f"INSERT INTO timelog (timestampFrom, timestampTo, date,category_id, user_id) VALUES ('{timeFrom}','{timeTo}','{date}','{catId}',(SELECT id from users where username = '{username}'))")
       conn.commit()
       return redirect("/overview")
     return render_template("add_new_timelog.html",categories=categories, cookie=cookie)
@@ -86,6 +87,8 @@ def edit_timelog(id):
         date = request.form.get("date")
         timeFrom = request.form.get("timeStampFrom")
         timeTo = request.form.get("timeStampTo")
+        
+        print(f"--> GOT for EDIT: TimeTo:{timeTo},TimeFrom:{timeFrom},Date:{date},ID:{catId}")
         
         conn = mysql.connect()
         cursor = conn.cursor()

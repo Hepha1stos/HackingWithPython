@@ -58,6 +58,7 @@ Overview
               <th>Bis</th>
               <th>Datum</th>
               <th>Kategorie</th>
+              <th>Benutzer</th>
               <th></th>
             </tr>
           </thead>
@@ -77,6 +78,7 @@ Overview
                 <td>{{ log.timeTo }}</td>
                 <td>{{ log.date }}</td>
                 <td>{{ log.category }}</td>
+                <td>{{ log.user }}</td>
                 <td><a href="/edit/{{ log.id }}" class="btn btn-primary hover:bg-blue-200">Bearbeiten</a></td>
               </tr>
               {% endfor %}
@@ -87,7 +89,7 @@ Overview
             {% endif %}
           </tbody>
         </table>
-        <a class="btn btn-primary" a href="/add">Neuen Log hinzufügen</a>
+        <a class="btn btn-primary mt-2" a href="/add">Neuen Log hinzufügen</a>
       </div>
     </div>
   </div>
