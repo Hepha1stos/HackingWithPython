@@ -61,3 +61,7 @@
 .modern-btn-cancel:hover {
   background-color: #7f0026e7;
 }
+
+.hover-shadow{
+  box-shadow: 0 15rem 10rem rgba(0,0,0,0.15);
+}
