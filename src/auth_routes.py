@@ -1,4 +1,4 @@
-from flask import render_template, request, Blueprint,flash, redirect
+from flask import render_template, request, Blueprint,flash, redirect, make_response
 
 from src.db import mysql
 
@@ -23,11 +23,13 @@ def user_login():
 
         result = cursor.fetchone()
         if not result:
-            return render_template("login.html", cookie=None)
+            # Login fehlgeschlagen – sende z.B. 401 Unauthorized
+            response = make_response(render_template("login.html", cookie=None), 401)
+            return response
 
-        resp = redirect("/")
+        resp = make_response(redirect("/"), 302)
         resp.set_cookie("name", username)
-        return resp, 200
+        return resp
 
     return render_template("login.html"),401
 
