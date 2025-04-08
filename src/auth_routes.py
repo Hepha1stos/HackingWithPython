@@ -5,29 +5,32 @@ from src.db import mysql
 
 auth_routes = Blueprint("auth_routes", __name__)
 
-@auth_routes.route("/login",methods=["GET","POST"])
+@auth_routes.route("/login", methods=["GET", "POST"])
 def user_login():
-  if request.method == "POST":
-    print("Post")
+    if request.method == "POST":
+        print("Post")
 
-    conn = mysql.connect()
-    cursor = conn.cursor()
-   
-    username = request.form.get("username")
-    password = request.form.get("password")
-  
-    query = f"SELECT username from users WHERE username = '{username}' AND password = '{password}'"
-    print(query)
-    cursor.execute(query)
+        conn = mysql.connect()
+        cursor = conn.cursor()
 
-    result = cursor.fetchone()[0]
-    if not result:
-      return render_template("login.html", cookie=None)
+        username = request.form.get("username")
+        password = request.form.get("password")
 
-    resp = redirect("/")
-    resp.set_cookie("name",username)
-    return resp
-  return render_template("login.html")
+        
+        query = f"SELECT username FROM users WHERE username = '{username}' AND password = '{password}'"
+        print(query)
+        cursor.execute(query)
+
+        result = cursor.fetchone()
+        if not result:
+            return render_template("login.html", cookie=None)
+
+        resp = redirect("/")
+        resp.set_cookie("name", username)
+        return resp, 200
+
+    return render_template("login.html"),401
+
 
 @auth_routes.route("/logout")
 def user_logout():
