@@ -27,7 +27,7 @@ class Listener(BaseHTTPRequestHandler):
             self.send_response(500)
             self.end_headers()
 
-print("🚀 Server läuft auf http://0.0.0.0:5000")
+print("Server läuft auf http://0.0.0.0:5000")
 try:
     HTTPServer(('0.0.0.0', 5000), Listener).serve_forever()
 except KeyboardInterrupt:
