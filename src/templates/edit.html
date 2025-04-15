@@ -46,18 +46,14 @@ Eintrag bearbeiten
               />
             </div>
             <div class="mb-3">
-            <label for="catSelect" class="form-label">Kategorie</label>
-            <select class="form-select modern-form-control" id="catSelect" name="catSelect" required>
-              {% for cat in categories %}
-                <option value="{{ cat[0] }}"
-                  {% if cat[0] == log.category_id %}
-                    selected
-                  {% endif %}
-                >
-                  {{ cat[1] }}
-                </option>
-              {% endfor %}
-            </select>
+            <label for="catSelect" class="form-label">Beschreibung</label>
+            <input
+                type="text"
+                class="form-control modern-form-control"
+                id="description"
+                name="description"
+                value="{{ log.description }}"
+              />
           </div>
 
             <button type="submit" class="btn modern-btn w-100 mb-3">

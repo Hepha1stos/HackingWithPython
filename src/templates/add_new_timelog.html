@@ -74,13 +74,8 @@ Add new Timelog
               </div>
             </div>
             <div class="mb-4">
-              <label for="catSelect" class="form-label">Kategorie</label>
-              <select class="form-select modern-form-control" id="catSelect" name="catSelect" required>
-                <option value="" disabled selected>Bitte Kategorie wählen</option>
-                {% for cat in categories %}
-                <option value="{{ cat[0] }}">{{ cat[1] }}</option>
-                {% endfor %}
-              </select>
+              <label for="catSelect" class="form-label">Beschreibung</label>
+              <input type="text" name="description" id="description" class="form-control modern-form-control" required>
             </div>
             <div class="d-grid">
               <button type="submit" class="btn modern-btn mb-2">Speichern</button>

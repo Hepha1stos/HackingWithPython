@@ -28,7 +28,7 @@ def show():
             "timeFrom": str(row[1]),
             "date": row[3].strftime("%d.%m.%Y"),
             "timeTo": row[2],
-            "category": row[6],
+            "description": row[6],
             "user": row[7]
         }
         for row in logs
@@ -50,14 +50,14 @@ def add_new_timelog():
     if request.method == "POST":
         
       username = request.cookies.get("name")
-      catId = request.form.get("catSelect")
+      description = request.form.get("description")
       date = request.form.get("date")
       timeFrom = request.form.get("timeFrom")
       timeTo = request.form.get("timeTo")
 
-      print(f"--> INSERT timelog: category_id:{catId}, date:{date}, timeFrom:{timeFrom}, timeTo:{timeTo} for user {username}")
+      print(f"--> INSERT timelog: description:{description}, date:{date}, timeFrom:{timeFrom}, timeTo:{timeTo} for user {username}")
     
-      cursor.execute(f"INSERT INTO timelog (timestampFrom, timestampTo, date,category_id, user_id) VALUES ('{timeFrom}','{timeTo}','{date}','{catId}',(SELECT id from users where username = '{username}'))")
+      cursor.execute(f"INSERT INTO timelog (timestampFrom, timestampTo, date,description, user_id,category_id) VALUES ('{timeFrom}','{timeTo}','{date}','{description}',(SELECT id from users where username = '{username}'),1)")
       conn.commit()
       return redirect("/overview")
     return render_template("add_new_timelog.html",categories=categories, cookie=cookie)
@@ -73,7 +73,7 @@ def edit_timelog(id):
     conn = mysql.connect()
     cursor = conn.cursor()
 
-    cursor.execute(f"SELECT timeStampFrom,timeStampTo,date,category_id,u.username from timelog JOIN users u ON timelog.user_id = u.id where timelog.id = '{id}'")
+    cursor.execute(f"SELECT timeStampFrom,timeStampTo,date,description,u.username from timelog JOIN users u ON timelog.user_id = u.id where timelog.id = '{id}'")
     log = cursor.fetchone()
     colums = [desc[0] for desc in cursor.description]
     log_dict = dict(zip(colums, log))
@@ -83,19 +83,19 @@ def edit_timelog(id):
  
     if request.method == "POST":
 
-        catId = request.form.get("catSelect")
+        description = request.form.get("description")
         date = request.form.get("date")
         timeFrom = request.form.get("timeStampFrom")
         timeTo = request.form.get("timeStampTo")
         
-        print(f"--> GOT for EDIT: TimeTo:{timeTo},TimeFrom:{timeFrom},Date:{date},ID:{catId}")
+        print(f"--> GOT for EDIT: TimeTo:{timeTo},TimeFrom:{timeFrom},Date:{date},Description:{description}")
         
         conn = mysql.connect()
         cursor = conn.cursor()
 
-        print(f"--> Update timelog with ID {id}: category_id:{catId}, date:{date}, timeFrom:{timeFrom}, timeTo:{timeTo}")
+        print(f"--> Update timelog with ID {id}: description:{description}, date:{date}, timeFrom:{timeFrom}, timeTo:{timeTo}")
 
-        cursor.execute(f"UPDATE timelog SET category_id='{catId}', date='{date}', timeStampFrom='{timeFrom}', timeStampTo='{timeTo}' WHERE id='{id}'")
+        cursor.execute(f"UPDATE timelog SET description='{description}', date='{date}', timeStampFrom='{timeFrom}', timeStampTo='{timeTo}' WHERE id='{id}'")
         conn.commit()
         cursor.close()
         conn.close()
