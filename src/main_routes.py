@@ -10,9 +10,11 @@ def homepage():
     conn = mysql.connect()
     cursor = conn.cursor()
     
-    cursor.execute(f"SELECT username from users where username = '{cookie}'")
-    name = cursor.fetchone()[0]
-    
+    try:
+        cursor.execute(f"SELECT username from users where username = '{cookie}'")
+        name = cursor.fetchone()[0]
+    except exec as e:
+        name = ""
     print(name)
     
     return render_template('home.html', cookie=cookie, name=name)
