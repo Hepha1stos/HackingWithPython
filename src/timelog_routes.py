@@ -17,9 +17,10 @@ def show():
     if request.method == "POST":
         delete_id = request.form.get("delete_id")
         if delete_id:
-            cursor.execute(f"DELETE FROM timelog WHERE id = {delete_id}")
+            sql_delete = "DELETE FROM timelog WHERE id = %s"
+            cursor.execute(sql_delete, (delete_id,))
             conn.commit()
-
+    
     cursor.execute("SELECT t.*, c.name, u.username FROM timelog as t JOIN category c ON t.category_id = c.id JOIN users u ON t.user_id = u.id ORDER BY t.date;")
     logs = cursor.fetchall()
     parsedLogs = [
@@ -95,7 +96,10 @@ def edit_timelog(id):
 
         print(f"--> Update timelog with ID {id}: description:{description}, date:{date}, timeFrom:{timeFrom}, timeTo:{timeTo}")
 
-        cursor.execute(f"UPDATE timelog SET description='{description}', date='{date}', timeStampFrom='{timeFrom}', timeStampTo='{timeTo}' WHERE id='{id}'")
+        
+        sql = "UPDATE timelog SET description='%s', date='%s', timeStampFrom='%s', timeStampTo='%s' WHERE id='%s'"
+        
+        cursor.execute(sql, (description,date,timeFrom,timeTo,id))
         conn.commit()
         cursor.close()
         conn.close()

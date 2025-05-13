@@ -17,9 +17,10 @@ def user_login():
         password = request.form.get("password")
 
         
-        query = f"SELECT username FROM users WHERE username = '{username}' AND password = '{password}'"
+        
+        query = "SELECT username FROM users WHERE username = %s AND password = %s"
         print(query)
-        cursor.execute(query)
+        cursor.execute(query,(username,password))
 
         result = cursor.fetchone()
         if not result:
@@ -50,8 +51,10 @@ def user_register():
       email = request.form.get("email")
       password1 = request.form.get("password1")
       password2 = request.form.get("password2")
+      
+      sql = "INSERT INTO users (username, email, password) VALUES (%s, %s, %s)"
 
-      cursor.execute(f"INSERT INTO users (username, email, password) VALUES ('{username}','{email}','{password2}')")
+      cursor.execute(sql, (username, email, password2))
       conn.commit()
 
     except Exception as e:
