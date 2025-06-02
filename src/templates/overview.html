@@ -1,95 +1,58 @@
 {% extends 'base.html' %}
 {% block title %}
-Overview
+Übersicht – Timetracker
 {% endblock %}
 
 {% block content %}
-<style>
-  .modern-table {
-    border-collapse: collapse;
-    width: 100%;
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  }
-  .modern-table th, .modern-table td {
-    padding: 12px 15px;
-    text-align: center;
-  }
-  .modern-table thead tr {
-    background-color: #009879;
-    color: #ffffff;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
-  .modern-table tbody tr {
-    border-bottom: 1px solid #dddddd;
-  }
-  .modern-table tbody tr:nth-of-type(even) {
-    background-color: #f3f3f3;
-  }
-  .modern-table tbody tr:last-of-type {
-    border-bottom: 2px solid #009879;
-  }
-  .modern-table tbody tr:hover {
-    background-color: #f1f1f1;
-    transition: background-color 0.3s ease;
-  }
-  .action-btn {
-    background: transparent;
-    border: none;
-    color: #dc3545;
-    cursor: pointer;
-    font-size: 0.9rem;
-  }
-</style>
-
 <div class="container mt-5">
-  <div class="card border-0 shadow-sm">
-    <div class="card-header bg-white border-0">
-      <h4 class="mb-0 text-center">Zeiterfassung Übersicht</h4>
-    </div>
-    <div class="card-body p-0">
-      <div class="table-responsive">
-        <table class="modern-table">
-          <thead>
-            <tr>
-              <th>Aktion</th>
-              <th>ID</th>
-              <th>Von</th>
-              <th>Bis</th>
-              <th>Datum</th>
-              <th>Beschreibung</th>
-              <th>Benutzer</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            {% if logs %}
+  <div class="row">
+    <div class="col">
+      <div class="card modern-card">
+        <div class="card-header modern-card-header">
+          <h4 class="mb-0">Timelog Übersicht</h4>
+        </div>
+        <div class="card-body modern-card-body p-0">
+          <table class="table mb-0">
+            <thead class="table-dark">
+              <tr>
+                <th>ID</th>
+                <th>Datum</th>
+                <th>Von</th>           <!-- Neue Spalte -->
+                <th>Bis</th>           <!-- Neue Spalte -->
+                <th>Beschreibung</th>
+                <th>Kategorie</th>
+                <th>Nutzer</th>
+                <th>Aktion</th>
+              </tr>
+            </thead>
+            <tbody>
               {% for log in logs %}
-              <tr>
-                <td>
-                  <!-- <form method="post" action="/overview" class="mb-0">
-                    <input type="hidden" name="delete_id" value="{{ log.id }}">
-                    <button type="submit" class="action-btn">Delete</button>
-                  </form> -->
-                  <a href="/delete/{{log.id}}" class="action-btn text-decoration-none">Löschen</a>
-                </td>
-                <td>{{ log.id }}</td>
-                <td>{{ log.timeFrom }}</td>
-                <td>{{ log.timeTo }}</td>
-                <td>{{ log.date }}</td>
-                <td>{{ log.description | safe }}</td>
-                <td>{{ log.user }}</td>
-                <td><a href="/edit/{{ log.id }}" class="btn btn-primary hover:bg-blue-200">Bearbeiten</a></td>
-              </tr>
+                <tr>
+                  <td>{{ log.id }}</td>
+                  <td>{{ log.date }}</td>
+                  <td>{{ log.timeFrom }}</td>  <!-- Wert "Von" -->
+                  <td>{{ log.timeTo }}</td>    <!-- Wert "Bis" -->
+                  <td>{{ log.description }}</td>
+                  <td>{{ log.category }}</td>
+                  <td>{{ log.user }}</td>
+                  <td>
+                    <a href="{{ url_for('timelog_routes.edit_timelog', id=log.id) }}"
+                       class="btn btn-sm btn-outline-secondary me-1">
+                      Bearbeiten
+                    </a>
+                    <form method="post" action="{{ url_for('timelog_routes.show') }}" style="display:inline;">
+                      <input type="hidden" name="delete_id" value="{{ log.id }}">
+                      <button type="submit" class="btn btn-sm btn-outline-danger"
+                              onclick="return confirm('Eintrag wirklich löschen?');">
+                        Löschen
+                      </button>
+                    </form>
+                  </td>
+                </tr>
               {% endfor %}
-            {% else %}
-              <tr>
-                <td colspan="7" class="text-center">Keine Einträge vorhanden.</td>
-              </tr>
-            {% endif %}
-          </tbody>
-        </table>
-        <a class="btn btn-primary mt-2" a href="/add">Neuen Log hinzufügen</a>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>

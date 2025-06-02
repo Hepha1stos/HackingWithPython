@@ -35,3 +35,5 @@ for password in passwords:
         print(f"[!] Fehler bei Versuch mit '{password}': {e}")
 
 driver.quit()
+
+

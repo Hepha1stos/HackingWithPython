@@ -7,25 +7,28 @@ Timetracker – Erfasse deine Arbeitszeiten
 <!-- Hero-Bereich -->
 <div class="p-5 mb-4 bg-light rounded-3">
   <div class="container py-5">
-    <h1 class="display-5 fw-bold">Willkommen {{ name }}</h1>
-    <p class="col-md-8 fs-4">
-      Erfasse deine Arbeitszeiten schnell und unkompliziert. Behalte ganz einfach den Überblick über deine Projekte und Aufgaben.
-    </p>
-
-    {% if cookie %}
+    {% if session.username %}
+      <h1 class="display-5 fw-bold">Willkommen {{ session.username }}</h1>
       <!-- Button für eingeloggte Benutzer -->
-      <button class="modern-btn btn-lg" type="button" onclick="location.href='{{ url_for('timelog_routes.add_new_timelog') }}'">
+      <button class="modern-btn btn-lg" type="button"
+              onclick="location.href='{{ url_for('timelog_routes.add_new_timelog') }}'">
         Jetzt Arbeitszeit erfassen
       </button>
     {% else %}
+      <h1 class="display-5 fw-bold">Willkommen</h1>
       <!-- Button für nicht eingeloggte Benutzer -->
-      <button class="modern-btn btn-lg me-2" type="button"  onclick="location.href='{{ url_for('auth_routes.user_login') }}'">
+      <button class="modern-btn btn-lg me-2" type="button"
+              onclick="location.href='{{ url_for('auth_routes.user_login') }}'">
         Anmelden
       </button>
-      <button class="btn btn-secondary" type="button" onclick="location.href='{{ url_for('auth_routes.user_register') }}'">
+      <button class="btn btn-secondary" type="button"
+              onclick="location.href='{{ url_for('auth_routes.user_register') }}'">
         Registrieren
       </button>
     {% endif %}
+    <p class="col-md-8 fs-4 mt-3">
+      Erfasse deine Arbeitszeiten schnell und unkompliziert. Behalte ganz einfach den Überblick über deine Projekte und Aufgaben.
+    </p>
   </div>
 </div>
 
