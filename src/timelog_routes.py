@@ -19,7 +19,7 @@ def show():
     conn = mysql.connect()
     cursor = conn.cursor()
 
-    # Wenn gelöscht werden soll
+
     if request.method == "POST":
         delete_id = request.form.get("delete_id")
         if delete_id:
@@ -29,7 +29,6 @@ def show():
             )
             conn.commit()
 
-    # Alle Einträge abrufen (inkl. Von/Bis)
     cursor.execute(
         "SELECT t.id, "
         "       t.timestampFrom, "
@@ -47,8 +46,6 @@ def show():
 
     parsedLogs = []
     for row in rows:
-        # row[1] und row[2] sind datetime.time oder datetime.timedelta
-        # Wir formatieren immer in "HH:MM"
         if row[1] is not None:
             try:
                 time_from = row[1].strftime("%H:%M")
@@ -98,7 +95,6 @@ def add_new_timelog():
     conn = mysql.connect()
     cursor = conn.cursor()
 
-    # Kategorien für das Formular laden
     cursor.execute("SELECT id, name FROM category")
     categories = cursor.fetchall()
 
@@ -141,7 +137,6 @@ def edit_timelog(id):
     conn = mysql.connect()
     cursor = conn.cursor()
 
-    # 1. Bestehenden Eintrag holen (inkl. Username)
     cursor.execute(
         """
         SELECT t.timestampFrom,
@@ -156,9 +151,8 @@ def edit_timelog(id):
         """,
         (id, user_id)
     )
-    row = cursor.fetchone()  # Tupel oder None
+    row = cursor.fetchone()  
 
-    # 2. Kategorien laden
     cursor.execute("SELECT id, name FROM category")
     categories = cursor.fetchall()
 
@@ -167,8 +161,7 @@ def edit_timelog(id):
         conn.close()
         return redirect(url_for("timelog_routes.show"))
 
-    # 3. "Von"/"Bis" in "HH:MM" umwandeln
-    # timeFrom
+
     if row[0] is not None:
         try:
             time_from_str = row[0].strftime("%H:%M")
@@ -192,7 +185,7 @@ def edit_timelog(id):
     else:
         time_to_str = ""
 
-    # Datum im Format "YYYY-MM-DD"
+
     try:
         date_str = row[2].strftime("%Y-%m-%d")
     except Exception:
@@ -207,7 +200,7 @@ def edit_timelog(id):
         "username":    row[5] or ""       # für Anzeigezwecke
     }
 
-    # 4. POST: Änderungen speichern
+ 
     if request.method == "POST":
         new_date        = request.form.get("date") or log_dict["date"]
         new_timeFrom    = request.form.get("timeFrom") or log_dict["timeFrom"]
@@ -234,7 +227,7 @@ def edit_timelog(id):
 
     cursor.close()
     conn.close()
-    # 5. Rendern mit den korrekt formatierten Werten
+
     return render_template("edit.html", log=log_dict, categories=categories)
 
 

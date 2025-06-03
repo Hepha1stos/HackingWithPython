@@ -5,26 +5,26 @@ from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 from src.db import mysql
 
-# 1) Flask-App erstellen
+
 app = Flask(__name__)
 app.config['MYSQL_DATABASE_HOST']     = 'localhost'
 app.config['MYSQL_DATABASE_USER']     = 'admin'
 app.config['MYSQL_DATABASE_PASSWORD'] = 'admin'
 app.config['MYSQL_DATABASE_DB']       = 'local'
-app.secret_key = "DEIN_SUPER_GEHEIMER_STRING"
+app.secret_key = "DESDKJHSDFK_UJFDHGI/%Z$I/ZRO(I/GUKFHBGKUDFRHhfughufhguh54h894hg895hgukfhgkdufhgp98e75)"
 
-# 2) Limiter-Instanz erzeugen und direkt an app binden
+
 limiter = Limiter(
-    key_func=get_remote_address,  # Limitiert standardmäßig pro IP-Adresse
-    storage_uri="memory://"       # In-Memory-Backend (für Tests/Entwicklung)
+    key_func=get_remote_address,
+    storage_uri="memory://"       
 )
 limiter.init_app(app)
 
-# 3) MySQL-Extension initialisieren
+
 mysql.init_app(app)
 
-# 4) Blueprints importieren und registrieren
-#    Wichtig: limiter muss VOR auth_routes importiert werden, weil auth_routes "from src import limiter" erwartet
+
+
 from src.auth_routes import auth_routes
 from src.main_routes import main_routes
 from src.timelog_routes import timelog_routes

@@ -2,11 +2,10 @@
 
 from flask import Blueprint, render_template, request, session, redirect, url_for, flash
 from src.db import mysql
-from src import limiter  # ← wir holen genau die Instanz, die in src/__init__.py erzeugt wurde
+from src import limiter
 
 auth_routes = Blueprint("auth_routes", __name__)
 
-# Limit: Maximal 5 POST-Versuche pro 1 Minute pro IP
 @auth_routes.route("/login", methods=["GET", "POST"])
 @limiter.limit("5 per 1 minute", methods=["POST"])
 def user_login():
@@ -17,7 +16,6 @@ def user_login():
         username = request.form.get("username")
         password = request.form.get("password")
 
-        # Plain-Text-Passwortabfrage wie vorher
         cursor.execute(
             "SELECT id, username, password FROM users WHERE username = %s",
             (username,)
