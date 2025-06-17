@@ -11,8 +11,8 @@ app.config['MYSQL_DATABASE_HOST']     = 'localhost'
 app.config['MYSQL_DATABASE_USER']     = 'admin'
 app.config['MYSQL_DATABASE_PASSWORD'] = 'admin'
 app.config['MYSQL_DATABASE_DB']       = 'local'
-#app.secret_key = "DESDKJHSDFK_UJFDHGI/%Z$I/ZRO(I/GUKFHBGKUDFRHhfughufhguh54h894hg895hgukfhgkdufhgp98e75)"
-app.secret_key ="4321"
+app.secret_key = "DESDKJHSDFK_UJFDHGI/%Z$I/ZRO(I/GUKFHBGKUDFRHhfughufhguh54h894hg895hgukfhgkdufhgp98e75)"
+
 
 
 limiter = Limiter(
