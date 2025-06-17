@@ -31,7 +31,6 @@ def user_login():
             flash("Ungültige Zugangsdaten", "danger")
             return render_template("login.html"), 401
 
-        # Zugangsdaten korrekt → Zwischenschritt: OTP prüfen
         session.clear()
         session["pre_2fa_user_id"] = user[0]
         session["pre_2fa_username"] = user[1]
@@ -54,7 +53,6 @@ def verify_otp():
 
         totp = pyotp.TOTP(otp_secret)
         if totp.verify(otp):
-            # OTP korrekt → final einloggen
             session["user_id"] = session.pop("pre_2fa_user_id")
             session["username"] = session.pop("pre_2fa_username")
             session.pop("otp_secret", None)
@@ -87,7 +85,6 @@ def user_register():
                 flash("Die Passwörter stimmen nicht überein", "danger")
                 return render_template("register.html")
 
-            # Neuen OTP-Secret generieren
             otp_secret = pyotp.random_base32()
 
             cursor.execute(
@@ -95,8 +92,7 @@ def user_register():
                 (username, email, password1, otp_secret)
             )
             conn.commit()
-
-            # NEU: Session direkt setzen, damit /setup-2fa funktioniert
+            
             cursor.execute("SELECT id FROM users WHERE username = %s", (username,))
             user = cursor.fetchone()
             session.clear()
@@ -135,11 +131,9 @@ def setup_2fa():
 
     username, otp_secret = result
 
-    # OTP-Provisioning URI erstellen
     totp = pyotp.TOTP(otp_secret)
     uri = totp.provisioning_uri(name=username, issuer_name="MeineApp")
 
-    # QR-Code generieren
     img = qrcode.make(uri)
     buf = io.BytesIO()
     img.save(buf)
